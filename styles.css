@@ -9,6 +9,7 @@ body {
     height: 100vh;
     background: linear-gradient(135deg, #2193b0, #6dd5ed);
     margin: 0;
+    flex-direction: column;
 }
 
 .container {
@@ -17,7 +18,7 @@ body {
     border-radius: 12px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     text-align: center;
-    width: 350px;
+    width: 400px;
 }
 
 h1 {
@@ -66,4 +67,21 @@ input:focus {
 
 strong {
     color: #2193b0;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    margin-top: 15px;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+th {
+    background: #2193b0;
+    color: white;
 }
