@@ -6,11 +6,12 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     background: linear-gradient(135deg, #2b5876, #4e4376);
     margin: 0;
     flex-direction: column;
     color: white;
+    padding: 20px;
 }
 
 /* Glassmorphism effect */
@@ -21,7 +22,8 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(10px);
     text-align: center;
-    width: 450px;
+    width: 90%;
+    max-width: 450px;
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -48,7 +50,7 @@ label {
 
 input {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border: none;
     border-radius: 8px;
     font-size: 16px;
@@ -115,4 +117,39 @@ th {
 
 tr:hover {
     background: rgba(255, 255, 255, 0.3);
+}
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+        text-align: center;
+    }
+
+    .container {
+        width: 100%;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    label {
+        font-size: 14px;
+    }
+
+    input {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    th, td {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
 }
