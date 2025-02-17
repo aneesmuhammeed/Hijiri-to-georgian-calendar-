@@ -1,4 +1,4 @@
-/* Apply Google Font */
+/* Import Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 body {
@@ -7,81 +7,112 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(135deg, #2193b0, #6dd5ed);
+    background: linear-gradient(135deg, #2b5876, #4e4376);
     margin: 0;
     flex-direction: column;
+    color: white;
 }
 
+/* Glassmorphism effect */
 .container {
-    background: white;
+    background: rgba(255, 255, 255, 0.15);
     padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
     text-align: center;
-    width: 400px;
+    width: 450px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 h1 {
     margin-bottom: 20px;
-    font-size: 22px;
-    color: #333;
+    font-size: 24px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #fff;
 }
 
+/* Input fields */
 .input-group {
     margin-bottom: 15px;
+    text-align: left;
 }
 
 label {
     display: block;
     font-weight: 600;
-    color: #444;
+    color: white;
     margin-bottom: 5px;
 }
 
 input {
     width: 100%;
     padding: 10px;
-    border: 2px solid #ddd;
+    border: none;
     border-radius: 8px;
     font-size: 16px;
     transition: 0.3s;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 input:focus {
-    border-color: #2193b0;
+    border-color: #FFD700;
     outline: none;
+    background: rgba(255, 255, 255, 0.3);
 }
 
+/* Results Section */
 .result {
     margin-top: 20px;
     padding: 15px;
-    background: #f8f9fa;
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 8px;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1);
+    color: white;
 }
 
 .result p {
     margin: 8px 0;
     font-weight: 500;
+    font-size: 16px;
 }
 
-strong {
-    color: #2193b0;
+/* Hijri Month Table */
+h2 {
+    margin-top: 20px;
+    font-size: 20px;
+    text-transform: uppercase;
+    color: #FFD700;
+    border-bottom: 2px solid #FFD700;
+    display: inline-block;
+    padding-bottom: 5px;
 }
 
-/* Table Styling */
 table {
     width: 100%;
     margin-top: 15px;
     border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 th, td {
-    padding: 10px;
-    border: 1px solid #ddd;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    text-align: center;
+    color: white;
 }
 
 th {
-    background: #2193b0;
-    color: white;
+    background: #FFD700;
+    color: black;
+    font-weight: bold;
+}
+
+tr:hover {
+    background: rgba(255, 255, 255, 0.3);
 }
