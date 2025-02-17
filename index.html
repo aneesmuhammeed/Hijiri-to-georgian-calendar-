@@ -1,95 +1,293 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gregorian & Hijri Calendar</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/moment-hijri@2.1.2/moment-hijri.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Interactive Gregorian & Hijri Calendars</title>
+  <!-- Include Moment.js and Moment-Hijri -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/moment-hijri@2.1.2/moment-hijri.js"></script>
+  <style>
+    /* Basic Reset */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #2b5876, #4e4376);
+      color: #fff;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    h1 {
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      font-size: 24px;
+    }
+    .calendars {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+      max-width: 1000px;
+    }
+    .calendar-container {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 15px;
+      padding: 15px;
+      width: 100%;
+      max-width: 450px;
+    }
+    .calendar-container h2 {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 20px;
+      text-transform: uppercase;
+      border-bottom: 2px solid #FFD700;
+      padding-bottom: 5px;
+    }
+    .calendar {
+      width: 100%;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .header button {
+      background: #FFD700;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .header span {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .weekdays, .dates {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+    }
+    .weekdays div {
+      padding: 5px 0;
+      font-weight: bold;
+    }
+    .dates div {
+      padding: 10px 0;
+      margin: 3px;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: background 0.3s;
+    }
+    .dates div:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    .dates .empty {
+      cursor: default;
+      background: transparent;
+    }
+    .dates .selected {
+      background: #FFD700;
+      color: #000;
+    }
+    .selection {
+      margin-top: 20px;
+      text-align: center;
+      background: rgba(255,255,255,0.15);
+      padding: 15px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 450px;
+    }
+    .selection p {
+      margin: 8px 0;
+      font-size: 16px;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      .calendars { flex-direction: column; align-items: center; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>📅 Gregorian & Hijri Calendar</h1>
-
-        <div class="input-group">
-            <label for="gregorian-date">Select Gregorian Date:</label>
-            <input type="date" id="gregorian-date">
+  <h1>Interactive Gregorian & Hijri Calendars</h1>
+  <div class="calendars">
+    <!-- Gregorian Calendar -->
+    <div class="calendar-container">
+      <h2>Gregorian Calendar</h2>
+      <div class="calendar" id="gregorian-calendar">
+        <div class="header">
+          <button id="greg-prev">&lt;</button>
+          <span id="greg-month-year"></span>
+          <button id="greg-next">&gt;</button>
         </div>
-
-        <div class="input-group">
-            <label for="hijri-date">Enter Hijri Date (YYYY-MM-DD):</label>
-            <input type="text" id="hijri-date" placeholder="1446-08-01">
+        <div class="weekdays">
+          <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div>
+          <div>Thu</div><div>Fri</div><div>Sat</div>
         </div>
-
-        <div class="result">
-            <p><strong>Converted Hijri:</strong> <span id="converted-hijri">-</span> (<span id="hijri-month-name">-</span>)</p>
-            <p><strong>Converted Gregorian:</strong> <span id="converted-gregorian">-</span> (<span id="gregorian-month-name">-</span>)</p>
-        </div>
-
-        <!-- Hijri Month Reference Table -->
-        <h2>📜 Hijri Month Reference</h2>
-        <table>
-            <tr><th>Number</th><th>Hijri Month</th></tr>
-            <tr><td>01</td><td>Muharram</td></tr>
-            <tr><td>02</td><td>Safar</td></tr>
-            <tr><td>03</td><td>Rabi' al-Awwal</td></tr>
-            <tr><td>04</td><td>Rabi' al-Thani</td></tr>
-            <tr><td>05</td><td>Jumada al-Awwal</td></tr>
-            <tr><td>06</td><td>Jumada al-Thani</td></tr>
-            <tr><td>07</td><td>Rajab</td></tr>
-            <tr><td>08</td><td>Sha’ban</td></tr>
-            <tr><td>09</td><td>Ramadan</td></tr>
-            <tr><td>10</td><td>Shawwal</td></tr>
-            <tr><td>11</td><td>Dhul-Qi'dah</td></tr>
-            <tr><td>12</td><td>Dhul-Hijjah</td></tr>
-        </table>
+        <div class="dates" id="greg-dates"></div>
+      </div>
     </div>
 
-    <script>
-        const hijriMonthNames = [
-            "Muharram", "Safar", "Rabi' al-Awwal", "Rabi' al-Thani", "Jumada al-Awwal", 
-            "Jumada al-Thani", "Rajab", "Sha'ban", "Ramadan", "Shawwal", "Dhul-Qi'dah", "Dhul-Hijjah"
-        ];
+    <!-- Hijri Calendar -->
+    <div class="calendar-container">
+      <h2>Hijri Calendar</h2>
+      <div class="calendar" id="hijri-calendar">
+        <div class="header">
+          <button id="hij-prev">&lt;</button>
+          <span id="hij-month-year"></span>
+          <button id="hij-next">&gt;</button>
+        </div>
+        <div class="weekdays">
+          <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div>
+          <div>Thu</div><div>Fri</div><div>Sat</div>
+        </div>
+        <div class="dates" id="hij-dates"></div>
+      </div>
+    </div>
+  </div>
 
-        const gregorianMonthNames = [
-            "January", "February", "March", "April", "May", "June", 
-            "July", "August", "September", "October", "November", "December"
-        ];
+  <!-- Display the Selected Dates -->
+  <div class="selection">
+    <p>Selected Gregorian Date: <span id="selected-greg">-</span></p>
+    <p>Selected Hijri Date: <span id="selected-hij">-</span></p>
+  </div>
 
-        // Gregorian to Hijri Conversion
-        document.getElementById("gregorian-date").addEventListener("change", function() {
-            let gregorianDate = this.value;
-            if (gregorianDate) {
-                let hijriDateObj = moment(gregorianDate, "YYYY-MM-DD");
-                let hijriDate = hijriDateObj.format("iYYYY-iMM-iDD");
-                let hijriMonth = hijriMonthNames[parseInt(hijriDateObj.format("iMM")) - 1];
+  <script>
+    // Global variables
+    let currentGregorian = moment(); // current Gregorian month view
+    let currentHijri = moment();       // current Hijri month view (using moment-hijri)
+    let selectedDateGregorian = moment(); // default selected is today
+    let selectedDateHijri = moment();       // corresponding Hijri date
 
-                document.getElementById("converted-hijri").textContent = hijriDate;
-                document.getElementById("hijri-month-name").textContent = hijriMonth;
-                document.getElementById("hijri-date").value = hijriDate;
+    // Render Gregorian Calendar
+    function renderGregorianCalendar() {
+      const container = document.getElementById('greg-dates');
+      container.innerHTML = '';
+      // Set header text
+      document.getElementById('greg-month-year').textContent = currentGregorian.format("MMMM YYYY");
+      // Determine first day of month and total days
+      const startOfMonth = currentGregorian.clone().startOf('month');
+      const daysInMonth = currentGregorian.daysInMonth();
+      const startDay = startOfMonth.day(); // 0 (Sun) - 6 (Sat)
 
-                let gregorianMonth = gregorianMonthNames[parseInt(hijriDateObj.format("MM")) - 1];
-                document.getElementById("gregorian-month-name").textContent = gregorianMonth;
-            }
+      // Fill in blank spaces until the first day
+      for (let i = 0; i < startDay; i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.classList.add('empty');
+        container.appendChild(emptyCell);
+      }
+
+      // Create date cells
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateCell = document.createElement('div');
+        dateCell.textContent = day;
+        const dateMoment = currentGregorian.clone().date(day);
+        // Mark as selected if it matches the selected date
+        if (dateMoment.isSame(selectedDateGregorian, 'day')) {
+          dateCell.classList.add('selected');
+        }
+        // Add click listener
+        dateCell.addEventListener('click', () => {
+          selectedDateGregorian = dateMoment.clone();
+          // Update corresponding Hijri date
+          selectedDateHijri = moment(selectedDateGregorian);
+          // Optionally, update the hijri view to the selected date's month
+          currentHijri = selectedDateHijri.clone();
+          updateSelectionDisplay();
+          renderGregorianCalendar();
+          renderHijriCalendar();
         });
+        container.appendChild(dateCell);
+      }
+    }
 
-        // Hijri to Gregorian Conversion
-        document.getElementById("hijri-date").addEventListener("input", function() {
-            let hijriDate = this.value;
-            if (hijriDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
-                let gregorianDateObj = moment(hijriDate, "iYYYY-iMM-iDD");
-                let gregorianDate = gregorianDateObj.format("YYYY-MM-DD");
-                let gregorianMonth = gregorianMonthNames[parseInt(gregorianDateObj.format("MM")) - 1];
+    // Render Hijri Calendar
+    function renderHijriCalendar() {
+      const container = document.getElementById('hij-dates');
+      container.innerHTML = '';
+      // Set header text using hijri formatting
+      document.getElementById('hij-month-year').textContent = currentHijri.format("iMMMM iYYYY");
+      // Determine first day of hijri month and total days in that month
+      const startOfHijri = currentHijri.clone().startOf('iMonth');
+      const daysInHijriMonth = currentHijri.iDaysInMonth();
+      // We need to know the weekday of the corresponding Gregorian date of the hijri month start
+      const startDay = startOfHijri.day(); 
 
-                document.getElementById("converted-gregorian").textContent = gregorianDate;
-                document.getElementById("gregorian-month-name").textContent = gregorianMonth;
-                document.getElementById("gregorian-date").value = gregorianDate;
+      // Fill in blank spaces until the first day
+      for (let i = 0; i < startDay; i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.classList.add('empty');
+        container.appendChild(emptyCell);
+      }
 
-                let hijriMonth = hijriMonthNames[parseInt(gregorianDateObj.format("iMM")) - 1];
-                document.getElementById("hijri-month-name").textContent = hijriMonth;
-            }
+      // Create date cells for Hijri
+      for (let day = 1; day <= daysInHijriMonth; day++) {
+        const dateCell = document.createElement('div');
+        dateCell.textContent = day;
+        // Create a moment object for the hijri date
+        const hijriDateStr = currentHijri.format("iYYYY") + '-' +
+                             (currentHijri.format("iMM")) + '-' +
+                             (day < 10 ? '0' + day : day);
+        const dateMomentHijri = moment(hijriDateStr, "iYYYY-iMM-iDD");
+        // Mark as selected if it matches the selected Hijri date
+        if (dateMomentHijri.isSame(selectedDateHijri, 'day')) {
+          dateCell.classList.add('selected');
+        }
+        // Add click listener
+        dateCell.addEventListener('click', () => {
+          // When clicking a hijri date, update the selected Hijri date
+          selectedDateHijri = dateMomentHijri.clone();
+          // Convert to Gregorian and update the selection
+          selectedDateGregorian = moment(selectedDateHijri);
+          // Optionally, update the Gregorian view to the selected date's month
+          currentGregorian = selectedDateGregorian.clone();
+          updateSelectionDisplay();
+          renderGregorianCalendar();
+          renderHijriCalendar();
         });
-    </script>
+        container.appendChild(dateCell);
+      }
+    }
+
+    // Update the display of selected dates
+    function updateSelectionDisplay() {
+      document.getElementById('selected-greg').textContent = selectedDateGregorian.format("dddd, MMMM D, YYYY");
+      document.getElementById('selected-hij').textContent = selectedDateHijri.format("idddd, iMMMM iD, iYYYY");
+    }
+
+    // Navigation for Gregorian Calendar
+    document.getElementById('greg-prev').addEventListener('click', () => {
+      currentGregorian.subtract(1, 'month');
+      renderGregorianCalendar();
+    });
+    document.getElementById('greg-next').addEventListener('click', () => {
+      currentGregorian.add(1, 'month');
+      renderGregorianCalendar();
+    });
+
+    // Navigation for Hijri Calendar
+    document.getElementById('hij-prev').addEventListener('click', () => {
+      currentHijri.subtract(1, 'iMonth');
+      renderHijriCalendar();
+    });
+    document.getElementById('hij-next').addEventListener('click', () => {
+      currentHijri.add(1, 'iMonth');
+      renderHijriCalendar();
+    });
+
+    // Initial Render
+    updateSelectionDisplay();
+    renderGregorianCalendar();
+    renderHijriCalendar();
+  </script>
 </body>
 </html>
