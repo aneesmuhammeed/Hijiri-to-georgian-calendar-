@@ -10,25 +10,41 @@
 </head>
 <body>
     <div class="container">
-        <h2>Gregorian & Hijri Calendar</h2>
+        <h1>📅 Gregorian & Hijri Calendar</h1>
 
-        <label for="gregorian-date">Gregorian Date:</label>
-        <input type="date" id="gregorian-date">
-        
-        <label for="hijri-date">Hijri Date (YYYY-MM-DD):</label>
-        <input type="text" id="hijri-date" placeholder="1446-01-01">
+        <div class="input-group">
+            <label for="gregorian-date">Select Gregorian Date:</label>
+            <input type="date" id="gregorian-date">
+        </div>
 
-        <p><strong>Converted Gregorian:</strong> <span id="converted-gregorian">-</span></p>
-        <p><strong>Converted Hijri:</strong> <span id="converted-hijri">-</span></p>
+        <div class="input-group">
+            <label for="hijri-date">Enter Hijri Date (YYYY-MM-DD):</label>
+            <input type="text" id="hijri-date" placeholder="1446-01-01">
+        </div>
+
+        <div class="result">
+            <p><strong>Converted Hijri:</strong> <span id="converted-hijri">-</span></p>
+            <p><strong>Hijri Month Name:</strong> <span id="hijri-month">-</span></p>
+            <p><strong>Converted Gregorian:</strong> <span id="converted-gregorian">-</span></p>
+        </div>
     </div>
 
     <script>
+        const hijriMonthNames = [
+            "Muharram", "Safar", "Rabi' al-Awwal", "Rabi' al-Thani", "Jumada al-Awwal", 
+            "Jumada al-Thani", "Rajab", "Sha'ban", "Ramadan", "Shawwal", "Dhul-Qi'dah", "Dhul-Hijjah"
+        ];
+
         // Gregorian to Hijri Conversion
         document.getElementById("gregorian-date").addEventListener("change", function() {
             let gregorianDate = this.value;
             if (gregorianDate) {
-                let hijriDate = moment(gregorianDate, "YYYY-MM-DD").format("iYYYY-iMM-iDD");
+                let hijriDateObj = moment(gregorianDate, "YYYY-MM-DD");
+                let hijriDate = hijriDateObj.format("iYYYY-iMM-iDD");
+                let hijriMonth = hijriMonthNames[parseInt(hijriDateObj.format("iMM")) - 1];
+
                 document.getElementById("converted-hijri").textContent = hijriDate;
+                document.getElementById("hijri-month").textContent = hijriMonth;
                 document.getElementById("hijri-date").value = hijriDate;
             }
         });
