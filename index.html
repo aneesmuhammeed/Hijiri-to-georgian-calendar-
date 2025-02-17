@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gregorian & Hijri Calendar</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment-hijri@2.1.2/moment-hijri.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2>Gregorian & Hijri Calendar</h2>
+
+        <label for="gregorian-date">Gregorian Date:</label>
+        <input type="date" id="gregorian-date">
+        
+        <label for="hijri-date">Hijri Date (YYYY-MM-DD):</label>
+        <input type="text" id="hijri-date" placeholder="1446-01-01">
+
+        <p><strong>Converted Gregorian:</strong> <span id="converted-gregorian">-</span></p>
+        <p><strong>Converted Hijri:</strong> <span id="converted-hijri">-</span></p>
+    </div>
+
+    <script>
+        // Gregorian to Hijri Conversion
+        document.getElementById("gregorian-date").addEventListener("change", function() {
+            let gregorianDate = this.value;
+            if (gregorianDate) {
+                let hijriDate = moment(gregorianDate, "YYYY-MM-DD").format("iYYYY-iMM-iDD");
+                document.getElementById("converted-hijri").textContent = hijriDate;
+                document.getElementById("hijri-date").value = hijriDate;
+            }
+        });
+
+        // Hijri to Gregorian Conversion
+        document.getElementById("hijri-date").addEventListener("input", function() {
+            let hijriDate = this.value;
+            if (hijriDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
+                let gregorianDate = moment(hijriDate, "iYYYY-iMM-iDD").format("YYYY-MM-DD");
+                document.getElementById("converted-gregorian").textContent = gregorianDate;
+                document.getElementById("gregorian-date").value = gregorianDate;
+            }
+        });
+    </script>
+</body>
+</html>
